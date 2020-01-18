@@ -3,6 +3,7 @@ package com.solveforx.statementprocessor.bService.authentication
 import com.solveforx.common.genesis.DataRepository.MongoRepo
 import com.solveforx.common.genesis.ErrorHandling.ErrorPackage
 import com.solveforx.statementprocessor.cDomain.authentication.AuthProfile
+import com.solveforx.statementprocessor.cDomain.authentication.Login
 import com.solveforx.statementprocessor.cDomain.user.User
 import org.funktionale.either.Either
 import org.funktionale.either.Either.*
@@ -18,13 +19,13 @@ class AuthenticationService(private val authRepo: MongoRepo<AuthProfile>, privat
      *
      * @return User()
      */
-    fun login(username: String, password: String): Either<ErrorPackage, User> {
+    fun login(loginReq: Login): Either<ErrorPackage, User> {
         val authProfile: Either<ErrorPackage, AuthProfile> = authRepo
-                .findByField("username", username)
+                .findByField("username", loginReq.username)
                 .toOption()
                 .toEitherRight { ErrorPackage("User Not Found") }
 
-        val passCorrect: Either<ErrorPackage, String> = if (authProfile.component2()?.password?: "" == password) {
+        val passCorrect: Either<ErrorPackage, String> = if (authProfile.component2()?.password?: "" == loginReq.password) {
             authProfile
                     .right()
                     .map { profile -> profile.id }

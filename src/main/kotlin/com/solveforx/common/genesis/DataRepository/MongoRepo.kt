@@ -12,6 +12,5 @@ class MongoRepo<A>(private val collection: MongoCollection<A>) {
 
     fun findByField(field: String, value: String): A? = collection.findOne<A>(Filters.eq(field, value))
 
-    fun two() = 9
 
 }
