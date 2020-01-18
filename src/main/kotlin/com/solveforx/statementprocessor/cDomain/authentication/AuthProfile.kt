@@ -1,8 +1,10 @@
 package com.solveforx.statementprocessor.cDomain.authentication
 
+import com.solveforx.common.genesis.DataRepository.RepoMeta
+import java.time.OffsetDateTime
 import java.util.*
-import javax.print.attribute.standard.JobOriginatingUserName
 
-data class AuthProfile(val id: UUID,
-                       val userName: String,
-                       val password: String)
+data class AuthProfile(val username: String,
+                       val password: String,
+                       override val id: String = UUID.randomUUID().toString(),
+                       override val createdOn: OffsetDateTime = OffsetDateTime.now()) : RepoMeta

@@ -1,12 +1,14 @@
 package com.solveforx.statementprocessor
 
-import com.solveforx.statementprocessor.aApplication.router.AppRouter
+import com.solveforx.statementprocessor.aApplication.router.AppServer
+import com.solveforx.statementprocessor.bService.authentication.AuthenticationService
+import com.solveforx.statementprocessor.dRepository.DataRepoInstances
 
+fun main() {
 
-fun main(args: Array<String>) {
+    val dataRepoInstances = DataRepoInstances()
+    val authService   = AuthenticationService(dataRepoInstances.authRepo, dataRepoInstances.usersRepo)
 
-    val router = AppRouter()
-
+    val router        = AppServer(authService)
     router.start()
-
 }
